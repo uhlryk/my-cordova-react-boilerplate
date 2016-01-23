@@ -32,6 +32,11 @@ var webpackOptions = {
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
         loader: 'url-loader?limit=100000'
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
       }
     ]
   },
@@ -47,6 +52,9 @@ var webpackOptions = {
       path.resolve(__dirname, './node_modules/bootstrap-sass/assets/stylesheets/'),
       path.resolve(__dirname, './node_modules/compass-mixins/lib/')
     ]
+  },
+  eslint: {
+
   },
   debug: true,
   progress: false,
