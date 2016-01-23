@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "removeComments": true,
+    "noImplicitAny": false,
+    "jsx": "react"
+  },
+  "files": [
+    "./typings/tsd.d.ts"
+  ]
+}

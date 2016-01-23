@@ -36,7 +36,7 @@ var webpackOptions = {
     ]
   },
   entry: [
-    './src/app/index.jsx'
+    './src/index.tsx'
   ],
   output: {
     path: path.join(__dirname, './dist/' + STATIC_PATH + '/'),
