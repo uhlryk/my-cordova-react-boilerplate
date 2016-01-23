@@ -9,23 +9,24 @@
     "redux",
     "jsx",
     "hot-loader",
-    "ts",
+    "es6",
+    "es7",
     "babel",
     "webpack",
     "bootstrap3",
     "sass"
   ],
   "main": "src/main.js",
-  "homepage": "https://github.com/uhlryk/my-cordova-react-ts-boilerplate",
+  "homepage": "https://github.com/uhlryk/my-cordova-react-boilerplate",
   "repository": {
     "type": "git",
-    "url": "https://github.com/uhlryk/my-cordova-react-ts-boilerplate.git"
+    "url": "https://github.com/uhlryk/my-cordova-react-boilerplate.git"
   },
   "scripts": {},
   "license": "MIT",
   "author": "Krzysztof Sztompka <sztompka.krzysztof@gmail.com>",
   "bugs": {
-    "url": "https://github.com/uhlryk/my-cordova-react-ts-boilerplate/issues"
+    "url": "https://github.com/uhlryk/my-cordova-react-boilerplate/issues"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
