@@ -16,8 +16,8 @@ const APP_NAME = packageJson.name;
 const APP_VERSION = packageJson.version;
 
 var webpackOptionsLoader = {
-  test: /\.tsx?$/,
-  loader: 'ts-loader',
+  test: /.jsx?$/,
+  loaders: ['babel?presets[]=react,presets[]=es2015,presets[]=stage-0'],
   include: path.join(__dirname, 'src'),
   exclude: /node_modules/
 };
@@ -36,7 +36,7 @@ var webpackOptions = {
     ]
   },
   entry: [
-    './src/app/index.jsx'
+    './src/index.jsx'
   ],
   output: {
     path: path.join(__dirname, './dist/' + STATIC_PATH + '/'),
