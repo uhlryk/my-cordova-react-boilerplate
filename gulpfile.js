@@ -7,11 +7,13 @@ var runSequence = require('run-sequence');
 var path = require("path");
 var preprocess = require('gulp-preprocess');
 var packageJson = require('./package.json');
-//var cordova = require('gulp-cordova-create');
 var clean = require('gulp-clean');
+var myip = require('quick-local-ip');
 
-const WEBPACK_SERVER_HOST = 'http://localhost';
+const WEBPACK_NETWORK_IP = myip.getLocalIP4();
+const WEBPACK_SERVER_HOST = 'http://' + WEBPACK_NETWORK_IP;
 const WEBPACK_SERVER_PORT = 3000;
+const PHONEGAP_SERVER_PORT = 3001;
 const STATIC_PATH = 'static';
 const BUNDLE_FILE = 'bundle.js';
 const APP_NAME = packageJson.name;
@@ -135,7 +137,7 @@ gulp.task('compile-react-hot', function(done) {
   new WebpackDevServer(webpack(webpackOptions), {
     hot: true,
     publicPath: '/' + STATIC_PATH + '/'
-  }).listen(WEBPACK_SERVER_PORT, "localhost", function(err) {
+  }).listen(WEBPACK_SERVER_PORT, WEBPACK_NETWORK_IP, function(err) {
     if(err) console.log(err);
     done();
     console.log('webpack dev server listening at ' + WEBPACK_SERVER_HOST + ':' + WEBPACK_SERVER_PORT);
@@ -214,6 +216,11 @@ gulp.task('emulate-android', shell.task('cd release && ../node_modules/.bin/cord
 gulp.task('emulate-ripple', shell.task('cd release && ../node_modules/.bin/ripple emulate'));
 
 /**
+ * run phonegap server
+ */
+gulp.task('phonegap-serve', shell.task('cd release && ../node_modules/.bin/phonegap serve --no-autoreload -p ' + PHONEGAP_SERVER_PORT));
+
+/**
  * Run app in browser - this also build app
  */
 gulp.task('run-browser', shell.task('cd release && ../node_modules/.bin/cordova run browser'));
@@ -253,10 +260,16 @@ gulp.task('prebuild-browser-hot', function(done) {
   runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'run-browser', done);
 });
 
-
 /**
  * Emulate app by ripple and hot loader
  */
 gulp.task('prebuild-ripple-hot', function(done) {
   runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'emulate-ripple', done);
+});
+
+/**
+ * Run test by 'The PhoneGap Developer App'
+ */
+gulp.task('prebuild-phonegap-hot', function(done) {
+  runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'phonegap-serve', done);
 });

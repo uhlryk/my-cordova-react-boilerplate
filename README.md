@@ -31,6 +31,10 @@ How to use this code as new app:
 
     npm install
 
+## React Hot loader:
+
+WebpackDevServer is using network ip, therefore you can use it from any device in current network.
+
 ## Commands:
 
 First time there is need to build cordova init app. It could be run only one, before any other commands:
@@ -83,6 +87,25 @@ Cordova need to be initialized. To run this emulator:
   
     gulp prebuild-ripple-hot
 
+## The PhoneGap Developer App with hot loader
+*Develop locally then see the changes instantly on your mobile device.*
+
+To run test app you have to install:
+
+for android:
+
+    https://play.google.com/store/apps/details?id=com.adobe.phonegap.app
+ 
+for ios:
+
+    https://itunes.apple.com/app/id843536693
+    
+And run on phone this app, then run :
+
+    prebuild-phonegap-hot
+    
+And write in phone app phonegap server listening url (it should be at the beginning of logs something like this `[phonegap] listening on 192.168.1.100:3001`)
+    
 ## Structure:
 
   * src                - directory with all sources
