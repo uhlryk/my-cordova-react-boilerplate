@@ -53,6 +53,16 @@ Build and emulate cordova app. Should be run only if cordova app is initialized
     
     gulp emulate-android
     
+## Use case:
+
+If you just install this boilerplate, and made some chanages in src/ and want to run ios emulation:
+
+    gulp init-cordova && gulp prepare-build && gulp emulate-ios
+    
+If you initialized cordova previouslu and you want to crate android app:
+
+    gulp prepare-build && gulp emulate-android
+
 ## Structure:
 
   * src                - directory with all sources
