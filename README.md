@@ -66,7 +66,6 @@ If you initialized cordova previouslu and you want to crate android app:
 ## Structure:
 
   * src                - directory with all sources
-  * dist               - directory with Compiled/transpiled/transformed sourced (created automatically). You don't have to do anything here
   * release            - directory with creaded electron app (created automatically)
   * package.json       - standard npm package. But name and version will be copied to electron npm. THere is also field `electronVersion`
   * src/index.jsx      - root react file

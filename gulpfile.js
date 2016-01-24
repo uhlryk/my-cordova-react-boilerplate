@@ -47,7 +47,7 @@ var webpackOptions = {
     './src/index.jsx'
   ],
   output: {
-    path: path.join(__dirname, './dist/' + STATIC_PATH + '/'),
+    path: path.join(__dirname, './release/www/' + STATIC_PATH + '/'),
     filename: BUNDLE_FILE
   },
   sassLoader: {
@@ -90,7 +90,21 @@ gulp.task('copy-layout', function() {
         APP_NAME: APP_NAME
       }
     }))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./release/www'))
+});
+
+/**
+ * copy non bundled files from src to dist directory with path to hot loader server
+ */
+gulp.task('copy-layout-hot', function() {
+  return gulp.src(['./src/index.html'])
+    .pipe(preprocess({
+      context: {
+        BUNDLE_PATH: WEBPACK_SERVER_HOST + ':' + WEBPACK_SERVER_PORT +'/' + STATIC_PATH + '/' + BUNDLE_FILE,
+        APP_NAME: APP_NAME
+      }
+    }))
+    .pipe(gulp.dest('./release/www'))
 });
 
 /**
@@ -103,6 +117,31 @@ gulp.task('compile-react', function(done) {
     done();
   });
 });
+
+/**
+ * Compile react jsx ES6 & ES7 to ES5 js and run webpack hot loader server
+ */
+gulp.task('compile-react-hot', function(done) {
+  webpackOptions.entry = [
+    'webpack-dev-server/client?' + WEBPACK_SERVER_HOST + ':' + WEBPACK_SERVER_PORT,
+    'webpack/hot/only-dev-server'
+  ].concat(webpackOptions.entry);
+  webpackOptions.plugins = [
+    new webpack.HotModuleReplacementPlugin({})
+  ];
+  webpackOptionsLoader.loaders.unshift('react-hot');
+  webpackOptions.output.publicPath = WEBPACK_SERVER_HOST + ':' + WEBPACK_SERVER_PORT + '/' + STATIC_PATH + '/';
+
+  new WebpackDevServer(webpack(webpackOptions), {
+    hot: true,
+    publicPath: '/' + STATIC_PATH + '/'
+  }).listen(WEBPACK_SERVER_PORT, "localhost", function(err) {
+    if(err) console.log(err);
+    done();
+    console.log('webpack dev server listening at ' + WEBPACK_SERVER_HOST + ':' + WEBPACK_SERVER_PORT);
+  });
+});
+
 /**
  * Create defauld cordova project in release directory.
  * It could be run once
@@ -127,14 +166,6 @@ gulp.task('platform-android', shell.task('cd release && ../node_modules/.bin/cor
 gulp.task('clear-cordova-www', function () {
   return gulp.src('release/www', {read: false})
     .pipe(clean());
-});
-
-/**
- * copy compiled dist to release/www
- */
-gulp.task('copy-www', ['clear-cordova-www'], function() {
-  return gulp.src(['./dist/**'])
-    .pipe(gulp.dest('./release/www'))
 });
 
 /**
@@ -176,5 +207,12 @@ gulp.task('init-cordova', function(done) {
  * Fill cordova project with proper html, js, css
  */
 gulp.task('prepare-build', function(done) {
-  runSequence('copy-layout', 'compile-react', 'copy-www', done);
+  runSequence('clear-cordova-www', 'copy-layout', 'compile-react', done);
+});
+
+/**
+ * Emulate ios app with hot loader
+ */
+gulp.task('prebuild-ios-hot', function(done) {
+  runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'emulate-ios', done);
 });
