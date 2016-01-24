@@ -46,6 +46,8 @@ Build cordova app. Should be run only if cordova app is initialized
     gulp build-ios
     
     gulp build-android
+    
+    gulp build-browser
 
 Build and emulate cordova app. Should be run only if cordova app is initialized
 
@@ -70,6 +72,8 @@ It allows to make changes in react app and make it instantly available in ios/an
     gulp prebuild-ios-hot
     
     gulp prebuild-android-hot
+
+    gulp prebuild-browser-hot
 
 ## Structure:
 

@@ -161,6 +161,12 @@ gulp.task('platform-ios', shell.task('cd release && ../node_modules/.bin/cordova
 gulp.task('platform-android', shell.task('cd release && ../node_modules/.bin/cordova platform add android'));
 
 /**
+ * Add browser platform to created cordova project
+ * It could be run once
+ */
+gulp.task('platform-browser', shell.task('cd release && ../node_modules/.bin/cordova platform add browser'));
+
+/**
  * Clear previous html code from release/www
  */
 gulp.task('clear-cordova-www', function () {
@@ -169,22 +175,28 @@ gulp.task('clear-cordova-www', function () {
 });
 
 /**
- * Build mobile ready apps for all installed platforms
+ * Build mobile apps for all installed platforms
  * Run after any changes
  */
 gulp.task('build-cordova', shell.task('cd release && ../node_modules/.bin/cordova build'));
 
 /**
- * Build mobile ready apps for ios platform
+ * Build mobile apps for ios platform
  * Run after any changes instead `build-cordova`
  */
 gulp.task('build-ios', shell.task('cd release && ../node_modules/.bin/cordova build ios'));
 
 /**
- * Build mobile ready apps for android platform
+ * Build mobile apps for android platform
  * Run after any changes instead `build-cordova`
  */
 gulp.task('build-android', shell.task('cd release && ../node_modules/.bin/cordova build android'));
+
+/**
+ * Build mobile apps for browser platform
+ * Run after any changes instead `build-cordova`
+ */
+gulp.task('build-browser', shell.task('cd release && ../node_modules/.bin/cordova build browser'));
 
 /**
  * Run ios emulation - this also build app
@@ -197,10 +209,15 @@ gulp.task('emulate-ios', shell.task('cd release && ../node_modules/.bin/cordova 
 gulp.task('emulate-android', shell.task('cd release && ../node_modules/.bin/cordova emulate android'));
 
 /**
+ * Run app in browser - this also build app
+ */
+gulp.task('run-browser', shell.task('cd release && ../node_modules/.bin/cordova run browser'));
+
+/**
  * Higher level task, should be run once for create cordova project (it could be run more times but it is time consuming)
  */
 gulp.task('init-cordova', function(done) {
-  runSequence('create-cordova', 'platform-ios', 'platform-android', done);
+  runSequence('create-cordova', 'platform-ios', 'platform-android', 'platform-browser', done);
 });
 
 /**
@@ -222,4 +239,11 @@ gulp.task('prebuild-ios-hot', function(done) {
  */
 gulp.task('prebuild-ios-hot', function(done) {
   runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'emulate-android', done);
+});
+
+/**
+ * Emulate browser app with hot loader
+ */
+gulp.task('prebuild-browser-hot', function(done) {
+  runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'run-browser', done);
 });
