@@ -75,6 +75,14 @@ It allows to make changes in react app and make it instantly available in ios/an
 
     gulp prebuild-browser-hot
 
+## Ripple emulation with hot loader
+
+*A browser based html5 mobile application development and testing tool*
+
+Cordova need to be initialized. To run this emulator:
+  
+    gulp prebuild-ripple-hot
+
 ## Structure:
 
   * src                - directory with all sources
