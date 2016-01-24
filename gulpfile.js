@@ -71,11 +71,17 @@ var webpackOptions = {
   devtool: 'source-map'
 };
 
+/**
+ * remove release directory, which allow to install new cordova project
+ */
 gulp.task('clear-release', function () {
   return gulp.src('release', {read: false})
     .pipe(clean());
 });
 
+/**
+ * copy non bundled files from src to dist directory
+ */
 gulp.task('copy-layout', function() {
   return gulp.src(['./src/index.html'])
     .pipe(preprocess({
@@ -87,6 +93,9 @@ gulp.task('copy-layout', function() {
     .pipe(gulp.dest('./dist/'))
 });
 
+/**
+ * Compile react jsx ES6 & ES7 to ES5 js
+ */
 gulp.task('compile-react', function(done) {
   webpack(webpackOptions, function(err, stats) {
     if(err) console.log(err);
