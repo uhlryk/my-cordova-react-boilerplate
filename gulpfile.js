@@ -165,5 +165,16 @@ gulp.task('emulate-ios', shell.task('cd release && ../node_modules/.bin/cordova 
  */
 gulp.task('emulate-android', shell.task('cd release && ../node_modules/.bin/cordova emulate android'));
 
+/**
+ * Higher level task, should be run once for create cordova project (it could be run more times but it is time consuming)
+ */
+gulp.task('init-cordova', function(done) {
+  runSequence('create-cordova', 'platform-ios', 'platform-android', done);
+});
 
-
+/**
+ * Fill cordova project with proper html, js, css
+ */
+gulp.task('prepare-build', function(done) {
+  runSequence('copy-layout', 'compile-react', 'copy-www', done);
+});
