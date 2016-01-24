@@ -7,12 +7,15 @@ var runSequence = require('run-sequence');
 var path = require("path");
 var preprocess = require('gulp-preprocess');
 var packageJson = require('./package.json');
+//var cordova = require('gulp-cordova-create');
+var clean = require('gulp-clean');
 
 const WEBPACK_SERVER_HOST = 'http://localhost';
 const WEBPACK_SERVER_PORT = 3000;
 const STATIC_PATH = 'static';
 const BUNDLE_FILE = 'bundle.js';
 const APP_NAME = packageJson.name;
+const APP_ID = packageJson.id;
 const APP_VERSION = packageJson.version;
 
 var webpackOptionsLoader = {
@@ -68,6 +71,22 @@ var webpackOptions = {
   devtool: 'source-map'
 };
 
+gulp.task('clear-release', function () {
+  return gulp.src('release', {read: false})
+    .pipe(clean());
+});
+
+gulp.task('copy-layout', function() {
+  return gulp.src(['./src/index.html'])
+    .pipe(preprocess({
+      context: {
+        BUNDLE_PATH: './' + STATIC_PATH + '/' + BUNDLE_FILE,
+        APP_NAME: APP_NAME
+      }
+    }))
+    .pipe(gulp.dest('./dist/'))
+});
+
 gulp.task('compile-react', function(done) {
   webpack(webpackOptions, function(err, stats) {
     if(err) console.log(err);
@@ -75,3 +94,67 @@ gulp.task('compile-react', function(done) {
     done();
   });
 });
+/**
+ * Create defauld cordova project in release directory.
+ * It could be run once
+ */
+gulp.task('create-cordova', ['clear-release'], shell.task('./node_modules/.bin/cordova create release ' + APP_ID + ' ' + APP_NAME));
+
+/**
+ * Add ios platform to created cordova project
+ * It could be run once
+ */
+gulp.task('platform-ios', shell.task('cd release && ../node_modules/.bin/cordova platform add ios'));
+
+/**
+ * Add android platform to created cordova project
+ * It could be run once
+ */
+gulp.task('platform-android', shell.task('cd release && ../node_modules/.bin/cordova platform add android'));
+
+/**
+ * Clear previous html code from release/www
+ */
+gulp.task('clear-cordova-www', function () {
+  return gulp.src('release/www', {read: false})
+    .pipe(clean());
+});
+
+/**
+ * copy compiled dist to release/www
+ */
+gulp.task('copy-www', ['clear-cordova-www'], function() {
+  return gulp.src(['./dist/**'])
+    .pipe(gulp.dest('./release/www'))
+});
+
+/**
+ * Build mobile ready apps for all installed platforms
+ * Run after any changes
+ */
+gulp.task('build-cordova', shell.task('cd release && ../node_modules/.bin/cordova build'));
+
+/**
+ * Build mobile ready apps for ios platform
+ * Run after any changes instead `build-cordova`
+ */
+gulp.task('build-ios', shell.task('cd release && ../node_modules/.bin/cordova build ios'));
+
+/**
+ * Build mobile ready apps for android platform
+ * Run after any changes instead `build-cordova`
+ */
+gulp.task('build-android', shell.task('cd release && ../node_modules/.bin/cordova build android'));
+
+/**
+ * Run ios emulation - this also build app
+ */
+gulp.task('emulate-ios', shell.task('cd release && ../node_modules/.bin/cordova emulate ios'));
+
+/**
+ * Run android emulation - this also build app
+ */
+gulp.task('emulate-android', shell.task('cd release && ../node_modules/.bin/cordova emulate android'));
+
+
+
