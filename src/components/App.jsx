@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import React from 'react';
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem, PageHeader, Jumbotron, Button, ButtonToolbar} from 'react-bootstrap';
 
-class App extends Component {
+class App extends React.Component {
 
   render() {
     return (
