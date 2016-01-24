@@ -216,3 +216,10 @@ gulp.task('prepare-build', function(done) {
 gulp.task('prebuild-ios-hot', function(done) {
   runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'emulate-ios', done);
 });
+
+/**
+ * Emulate android app with hot loader
+ */
+gulp.task('prebuild-ios-hot', function(done) {
+  runSequence('clear-cordova-www', 'copy-layout-hot', 'compile-react-hot', 'emulate-android', done);
+});

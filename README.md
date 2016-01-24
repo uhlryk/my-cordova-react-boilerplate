@@ -63,6 +63,14 @@ If you initialized cordova previouslu and you want to crate android app:
 
     gulp prepare-build && gulp emulate-android
 
+## Hot loader emulation
+
+It allows to make changes in react app and make it instantly available in ios/android emulator (cordova need to be initialized)
+ 
+    gulp prebuild-ios-hot
+    
+    gulp prebuild-android-hot
+
 ## Structure:
 
   * src                - directory with all sources
