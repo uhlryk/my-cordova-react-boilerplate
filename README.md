@@ -4,7 +4,7 @@
 
 How to use this code as new app:
 
-*This is ES6 & ES7 babilon version. If you prefere you can typescript version then follow instructions from this 
+*This is ES6 & ES7 babel version. If you prefere you can typescript version then follow instructions from this 
 [link](https://github.com/uhlryk/my-cordova-react-boilerplate/tree/typescript)*
 
 1 Clone this repository to new empty dir:
