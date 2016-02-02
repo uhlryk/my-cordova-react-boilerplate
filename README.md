@@ -121,6 +121,7 @@ And write in phone app phonegap server listening url (it should be at the beginn
 
   * cordova/phonegap
   * react
+  * react-router
   * jsx
   * redux
   * hot-loader
