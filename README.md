@@ -65,7 +65,7 @@ If you just install this boilerplate, and made some chanages in src/ and want to
 
     gulp init-cordova && gulp prepare-build && gulp emulate-ios
     
-If you initialized cordova previouslu and you want to crate android app:
+If you initialized cordova previously and you want to crate android app:
 
     gulp prepare-build && gulp emulate-android
 
