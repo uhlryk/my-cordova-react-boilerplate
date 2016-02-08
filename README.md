@@ -9,7 +9,7 @@ How to use this code as new app:
 
 1 Clone this repository to new empty dir:
 
-    https://github.com/uhlryk/my-cordova-react-boilerplate.git
+    git clone https://github.com/uhlryk/my-cordova-react-boilerplate.git emptyDirectory
 
 2 Create your app repository
 
