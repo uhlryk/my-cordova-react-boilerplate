@@ -102,7 +102,7 @@ for ios:
     
 And run on phone this app, then run :
 
-    prebuild-phonegap-hot
+    gulp prebuild-phonegap-hot
     
 And write in phone app phonegap server listening url (it should be at the beginning of logs something like this `[phonegap] listening on 192.168.1.100:3001`)
     
